@@ -1,6 +1,18 @@
 buildscript {
-    apply from: "$rootDir/gradleScripts/dependencies.gradle"
     ext.kotlin_version = '1.2.51'
+    ext.timberVersion = '4.7.0'
+    ext.anko_version = '0.10.1'
+    ext.asl_version = '27.1.1'
+    ext.espresso_version = '3.0.1'
+    ext.atsl_version = '1.0.1'
+    ext.constlayout_version = '1.1.0'
+    ext.leak_canary_version = '1.5.1'
+    ext.firebase_version = '15.0.0'
+    ext.firebase_ui_version = '3.3.1'
+    ext.dbflow_version = '4.2.4'
+    ext.daggerVersion = "2.15"
+    ext.koin_version = "0.9.3"
+
     repositories {
         google()
         jcenter()
@@ -11,12 +23,8 @@ buildscript {
         classpath 'com.android.tools.build:gradle:3.2.0-beta05'
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
         classpath "org.jetbrains.kotlin:kotlin-allopen:$kotlin_version"
-        classpath 'co.riiid:gradle-github-plugin:0.4.2'
-        classpath 'gradle.plugin.se.bjurr.gitchangelog:git-changelog-gradle-plugin:1.54'
     }
 }
-
-apply from: "$rootDir/gradleScripts/artifact.gradle"
 
 allprojects {
     repositories {
