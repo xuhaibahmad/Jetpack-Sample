@@ -1,0 +1,76 @@
+/**
+ This file contains all of our static analysis check tasks.
+
+ To use, add to the module's `build.gradle` and run `./gradlew check`
+
+ You can also automatically fix kotlin lint issues via the
+ `./gradlew ktlintFormat` command.
+
+ */
+apply plugin: 'findbugs'
+apply plugin: 'pmd'
+
+// Add findbugs, pmd, lint, and ktlint to the check task.
+check.dependsOn 'findbugs', 'pmd', 'lint', 'detekt'
+
+task findbugs(type: FindBugs, dependsOn: "assembleDebug") {
+    ignoreFailures = false
+    effort = "max"
+    reportLevel = "high"
+    excludeFilter = new File("${project.rootDir}/gradleScripts/quality/findbugs/findbugs-filter.xml")
+    classes = files("${buildDir}/intermediates/classes")
+
+    source 'src'
+    include '**/*.java'
+    exclude '**/gen/**'
+
+    reports {
+        xml.enabled = false
+        html.enabled = true
+        xml.setDestination(file("$project.buildDir/reports/findbugs/findbugs.xml"))
+        html.setDestination(file("$project.buildDir/reports/findbugs/findbugs.html"))
+    }
+
+    classpath = files()
+}
+
+task pmd(type: Pmd) {
+    ignoreFailures = false
+    ruleSetFiles = files("${project.rootDir}/gradleScripts/quality/pmd/pmd-ruleset.xml")
+    ruleSets = []
+
+    source 'src'
+    include '**/*.java'
+    exclude '**/gen/**'
+
+    reports {
+        xml.enabled = false
+        html.enabled = true
+        xml.setDestination(file("$project.buildDir/reports/pmd/pmd.xml"))
+        html.setDestination(file("$project.buildDir/reports/pmd/pmd.html"))
+    }
+}
+
+android {
+    lintOptions {
+        abortOnError false // TODO: Fix Lint errors
+        ignoreWarnings false
+        warningsAsErrors true
+        xmlReport false
+        htmlReport true
+        lintConfig file("${project.rootDir}/gradleScripts/quality/lint/lint.xml")
+        htmlOutput file("$project.buildDir/reports/lint/lint-result.html")
+        xmlOutput file("$project.buildDir/reports/lint/lint-result.xml")
+    }
+}
+
+task detekt(type: JavaExec) {
+    main = "io.gitlab.arturbosch.detekt.cli.Main"
+    classpath = configurations.detekt
+    def input = "$projectDir/src/main/java"
+    def config = "$rootDir/gradleScripts/detekt-config.yml"
+    def filters = ".*test.*,.*/build/.*,.*/resources/.*,.*/tmp/.*"
+    def output = "$project.projectDir/build/reports"
+    def params = [ '-i', input, '-c', config, '-f', filters, '-o', output]
+    args(params)
+}

@@ -1,0 +1,168 @@
+apply plugin: 'com.android.application'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-android-extensions'
+apply plugin: 'kotlin-kapt'
+apply from: "$rootDir/gradleScripts/script-git-version.gradle"
+apply from: "$rootDir/gradleScripts/factory.gradle"
+apply from: "$rootDir/gradleScripts/quality.gradle"
+
+// Get the date of build
+def getDateOfBuild = { -> // ISO 8601 time format
+    return new Date().format("yyyy-MM-dd'T'HH:mm'Z'").toString().trim()
+}
+
+// Get the last Git Short Hash
+def getGitHash = { ->
+    def stdout = new ByteArrayOutputStream()
+    exec {
+        commandLine 'git', 'rev-parse', '--short', 'HEAD'
+        standardOutput = stdout
+    }
+    return stdout.toString().trim()
+}
+
+task copyTestClasses(type: Copy) {
+    from "build/tmp/kotlin-classes/debug"
+    into "build/intermediates/classes/debug"
+}
+
+android {
+    signingConfigs {
+        release
+    }
+    compileSdkVersion 28
+    defaultConfig {
+        minSdkVersion 21
+        targetSdkVersion 28
+        versionCode gitVersionCode
+        versionName artifact_version
+        applicationId "com.zuhaibahmad.jetpacksample"
+        vectorDrawables.useSupportLibrary = true
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        testInstrumentationRunnerArguments clearPackageData: 'true'
+        signingConfig signingConfigs.release
+        buildConfigField "String", "GOOD_READS_API_KEY", GOOD_READS_API_KEY
+        buildConfigField "String", "GOOD_READS_API_SECRET", GOOD_READS_API_SECRET
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), "$project.rootDir/tools/rules-proguard.pro"
+            signingConfig signingConfigs.release
+            // Disables PNG crunching for the release build type.
+            crunchPngs false
+            manifestPlaceholders = [analytics_deactivated: "false", crashlytics_activated: "true"]
+            // Build Date
+            buildConfigField "String", "DATE_OF_BUILD", "\"${getDateOfBuild()}\""
+            // Git Hash for integrity checks
+            buildConfigField "String", "GIT_SHA", "\"${getGitHash()}\""
+        }
+        debug {
+            testCoverageEnabled = true
+            manifestPlaceholders = [analytics_deactivated: "true", crashlytics_activated: "false"]
+            // Build Date
+            buildConfigField "String", "DATE_OF_BUILD", "\"00-00-00\""
+            // Git Hash for integrity checks
+            buildConfigField "String", "GIT_SHA", "\"-\""
+            ext.alwaysUpdateBuildId = false
+        }
+    }
+
+    packagingOptions {
+        exclude 'META-INF/NOTICE'
+        exclude 'META-INF/LICENSE'
+        exclude 'META-INF/rxjava.properties'
+        exclude 'LICENSE.txt'
+    }
+
+    aaptOptions {
+        cruncherEnabled = false
+    }
+
+    lintOptions {
+        // TODO: Abort on error to true when lint is fixed
+        abortOnError false
+        fatal 'StopShip'
+    }
+
+    testOptions {
+        execution 'ANDROID_TEST_ORCHESTRATOR'
+        unitTests {
+            all {
+                // configure the test JVM arguments
+                jvmArgs '-noverify'
+                includeAndroidResources = true
+                returnDefaultValues = true
+            }
+        }
+    }
+
+    testOptions.unitTests.all {
+        testLogging {
+            events 'passed', 'skipped', 'failed', 'standardOut', 'standardError'
+            outputs.upToDateWhen { false }
+            showStandardStreams = true
+        }
+    }
+
+    configurations.all {
+        resolutionStrategy.force deps.findbugs
+    }
+
+    productFlavors {
+    }
+}
+
+kapt {
+    useBuildCache = true
+}
+
+androidExtensions {
+    experimental = true
+}
+
+Properties props = new Properties()
+def propFile = new File('keystore.properties')
+if (propFile.canRead()) {
+    props.load(new FileInputStream(propFile))
+
+    if (props != null && props.containsKey('STORE_FILE') && props.containsKey('STORE_PASSWORD') &&
+            props.containsKey('KEY_ALIAS') && props.containsKey('KEY_PASSWORD')) {
+        android.signingConfigs.release.storeFile = file(props['STORE_FILE'])
+        android.signingConfigs.release.storePassword = props['STORE_PASSWORD']
+        android.signingConfigs.release.keyAlias = props['KEY_ALIAS']
+        android.signingConfigs.release.keyPassword = props['KEY_PASSWORD']
+    } else {
+        println 'signing.properties found but some entries are missing'
+        android.buildTypes.release.signingConfig = null
+    }
+} else {
+    println 'signing.properties not found'
+    android.buildTypes.release.signingConfig = null
+}
+
+repositories {
+    google()
+    jcenter()
+    maven { url "https://jitpack.io" }
+    maven { url "http://dl.bintray.com/lukaville/maven" }
+    flatDir { dirs 'libs-aar' }
+}
+
+configurations.all {
+    resolutionStrategy {
+        force "com.android.support:support-v4:${deps.versions.support}"
+    }
+}
+
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation"org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+    implementation 'androidx.appcompat:appcompat:1.0.0-rc01'
+    implementation 'androidx.constraintlayout:constraintlayout:1.1.2'
+    implementation 'androidx.lifecycle:lifecycle-extensions:2.0.0-rc01'
+    testImplementation 'junit:junit:4.12'
+    androidTestImplementation 'androidx.test:runner:1.1.0-alpha4'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.1.0-alpha4'
+}

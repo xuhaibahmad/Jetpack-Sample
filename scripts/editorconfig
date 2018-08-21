@@ -1,0 +1,12 @@
+[{*.yml,*.yaml}]
+indent_style=space
+indent_size=4
+
+[*.{kt,kts}]
+# possible values: number (e.g. 2), "unset"
+continuation_indent_size=4
+# true (recommended) / false
+insert_final_newline=false
+# possible values: number (e.g. 120) (package name, imports & comments are ignored), "off"
+# it's automatically set to 100 on `ktlint --android ...` (per Android Kotlin Style Guide)
+max_line_length=off
