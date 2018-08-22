@@ -2,13 +2,13 @@ package com.zuhaibahmad.jetpacksample.network.response
 
 import com.google.gson.annotations.SerializedName
 
-data class BooksOverviewListResponse(
+data class BookReviewResponse(
 
 	@field:SerializedName("copyright")
 	val copyright: String,
 
 	@field:SerializedName("results")
-	val results: BooksOverviewResults,
+	val results: List<BookReviewResults>,
 
 	@field:SerializedName("num_results")
 	val numResults: Int,

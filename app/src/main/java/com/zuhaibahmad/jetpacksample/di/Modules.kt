@@ -13,6 +13,7 @@ import com.zuhaibahmad.jetpacksample.ui.booklisting.BookListingAdapter
 import com.zuhaibahmad.jetpacksample.ui.booklisting.BookListingViewModelFactory
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
+import org.koin.dsl.module.applicationContext
 import retrofit2.Retrofit
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory

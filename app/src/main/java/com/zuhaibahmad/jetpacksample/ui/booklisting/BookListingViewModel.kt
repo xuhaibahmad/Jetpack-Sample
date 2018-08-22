@@ -17,21 +17,32 @@ class BookListingViewModel(
     }
 
     fun subscribeToUiEvents() {
-        // Todo: Open book review
-        adapter.clicks.subscribe { view.showMessage("${it.title} clicked!") }.disposeOnDestroy()
+        adapter.clicks.subscribe { getReview(it.primaryIsbn10) }.disposeOnDestroy()
     }
 
     fun refreshData() = repository.getBooks()
+        .subscribeOn(schedulers.ios)
+        .observeOn(schedulers.main)
         .doOnSubscribe {
             loadBooks(emptyList())
             view.showProgress()
         }
         .doFinally { view.hideProgress() }
-        .subscribeOn(schedulers.ios)
-        .observeOn(schedulers.main)
         .doOnSuccess { Timber.i("Loaded ${it.size} Books!") }
         .subscribe({ loadBooks(it) }, Timber::e)
         .disposeOnDestroy()
+
+    private fun getReview(isbn: String) = repository.getReview(isbn)
+        .subscribeOn(schedulers.ios)
+        .observeOn(schedulers.main)
+        .doOnSubscribe { view.showProgress() }
+        .doFinally { view.hideProgress() }
+        .map { it.url }
+        .doOnSuccess { Timber.i("Review Url: $it") }
+        .subscribe({ openReview(it) }, Timber::e)
+        .disposeOnDestroy()
+
+    private fun openReview(reviewUrl: String) = view.showMessage(reviewUrl)
 
     private fun loadBooks(books: List<Book>) = adapter.apply {
         this.books.clear()

@@ -2,7 +2,7 @@ package com.zuhaibahmad.jetpacksample.network.response
 
 import com.google.gson.annotations.SerializedName
 
-data class Results(
+data class BooksOverviewResults(
 
 	@field:SerializedName("next_published_date")
 	val nextPublishedDate: String,
