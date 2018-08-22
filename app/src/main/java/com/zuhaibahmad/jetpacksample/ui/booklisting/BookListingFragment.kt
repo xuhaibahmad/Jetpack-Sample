@@ -1,11 +1,11 @@
 package com.zuhaibahmad.jetpacksample.ui.booklisting
 
-import androidx.lifecycle.ViewModelProviders
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.snackbar.Snackbar
 import com.zuhaibahmad.jetpacksample.R
@@ -23,7 +23,7 @@ class BookListingFragment : Fragment(), BookListingView {
     private lateinit var viewModel: BookListingViewModel
 
     private val viewModelFactory by lazy {
-        BookListingViewModelFactory(BooksRepository(), AppSchedulers())
+        BookListingViewModelFactory(BooksRepository(), BookListingAdapter(), AppSchedulers())
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, b: Bundle?): View =
@@ -34,22 +34,21 @@ class BookListingFragment : Fragment(), BookListingView {
         viewModel =
             ViewModelProviders.of(this, viewModelFactory).get(BookListingViewModel::class.java)
         viewModel.view = this
+        viewModel.subscribeToUiEvents()
 
         setupRecyclerView()
         initPullToRefresh()
     }
 
-    private fun setupRecyclerView() {
-        booksList.apply {
-            layoutManager = LinearLayoutManager(context)
-            adapter = viewModel.adapter
-            addItemDecoration(
-                VerticalSpaceItemDecoration(
-                    BookListingAdapter.ViewHolder::class.java,
-                    resources.getDimensionPixelOffset(R.dimen.space_large)
-                )
+    private fun setupRecyclerView() = booksList.apply {
+        layoutManager = LinearLayoutManager(context)
+        adapter = viewModel.adapter
+        addItemDecoration(
+            VerticalSpaceItemDecoration(
+                BookListingAdapter.ViewHolder::class.java,
+                resources.getDimensionPixelOffset(R.dimen.space_large)
             )
-        }
+        )
     }
 
     private fun initPullToRefresh() {

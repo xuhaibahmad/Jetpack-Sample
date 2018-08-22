@@ -3,19 +3,22 @@ package com.zuhaibahmad.jetpacksample.ui.booklisting
 import com.zuhaibahmad.jetpacksample.data.IBooksRepository
 import com.zuhaibahmad.jetpacksample.ui.base.BaseTestableViewModel
 import com.zuhaibahmad.jetpacksample.ui.base.ISchedulers
-import io.reactivex.Single
 import timber.log.Timber
 import java.util.concurrent.TimeUnit
 
 class BookListingViewModel(
     private val repository: IBooksRepository,
+    val adapter: BookListingAdapter,
     scheduler: ISchedulers
 ) : BaseTestableViewModel<BookListingView>(scheduler) {
 
-    val adapter = BookListingAdapter()
-
     init {
         refreshData()
+    }
+
+    fun subscribeToUiEvents() {
+        // Todo: Open book review
+        adapter.clicks.subscribe { view.showMessage("${it.name} clicked!") }.disposeOnDestroy()
     }
 
     // Todo: Remove delay

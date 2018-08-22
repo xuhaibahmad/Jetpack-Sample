@@ -7,12 +7,13 @@ import com.zuhaibahmad.jetpacksample.ui.base.ISchedulers
 
 class BookListingViewModelFactory(
     private val repository: IBooksRepository,
+    private val adapter: BookListingAdapter,
     private val scheduler: ISchedulers
 ) : ViewModelProvider.Factory {
 
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
         if (modelClass.isAssignableFrom(BookListingViewModel::class.java)) {
-            return BookListingViewModel(repository, scheduler) as T
+            return BookListingViewModel(repository, adapter, scheduler) as T
         }
         throw IllegalArgumentException("Unknown ViewModel class")
     }
