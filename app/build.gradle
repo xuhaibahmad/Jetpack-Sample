@@ -41,8 +41,7 @@ android {
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         testInstrumentationRunnerArguments clearPackageData: 'true'
         signingConfig signingConfigs.release
-        buildConfigField "String", "GOOD_READS_API_KEY", GOOD_READS_API_KEY
-        buildConfigField "String", "GOOD_READS_API_SECRET", GOOD_READS_API_SECRET
+        buildConfigField "String", "NYT_BOOKS_API_KEY", NYT_BOOKS_API_KEY
     }
     buildTypes {
         release {
@@ -156,6 +155,7 @@ dependencies {
     implementation 'androidx.appcompat:appcompat:1.0.0-rc01'
     implementation 'com.android.support.constraint:constraint-layout:1.1.2'
 
+
     // LiveData + ViewModel
     implementation 'androidx.lifecycle:lifecycle-extensions:2.0.0-rc01'
     implementation "android.arch.lifecycle:extensions:2.0.0-rc01"
@@ -191,6 +191,17 @@ dependencies {
     implementation 'com.squareup.retrofit2:converter-gson:2.3.0'
     implementation 'com.squareup.retrofit2:adapter-rxjava2:2.3.0'
     implementation 'com.squareup.okhttp3:logging-interceptor:3.9.0'
+
+    // Image Loading
+    implementation 'com.github.bumptech.glide:glide:4.6.1'
+    kapt 'com.github.bumptech.glide:compiler:4.6.1'
+    implementation 'jp.wasabeef:glide-transformations:3.0.1'
+
+    // DI
+    implementation "org.koin:koin-android:$koin_version"
+
+    // Misc
+    compile 'com.thefinestartist:finestwebview:1.2.7'
 
     // Testing
     testImplementation 'junit:junit:4.12'

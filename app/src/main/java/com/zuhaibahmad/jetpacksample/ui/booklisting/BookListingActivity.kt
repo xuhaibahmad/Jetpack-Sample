@@ -1,8 +1,8 @@
-package com.zuhaibahmad.jetpacksample
+package com.zuhaibahmad.jetpacksample.ui.booklisting
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import com.zuhaibahmad.jetpacksample.ui.booklisting.BookListingFragment
+import com.zuhaibahmad.jetpacksample.R
 
 class BookListingActivity : AppCompatActivity() {
 
