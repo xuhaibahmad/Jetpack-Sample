@@ -7,6 +7,7 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.jakewharton.rxbinding2.view.RxView
 import com.zuhaibahmad.jetpacksample.R
+import com.zuhaibahmad.jetpacksample.network.response.Book
 import io.reactivex.subjects.PublishSubject
 
 class BookListingAdapter(
@@ -33,7 +34,7 @@ class BookListingAdapter(
 
     class ViewHolder(val view: View) : RecyclerView.ViewHolder(view) {
         fun bind(book: Book) {
-            view.findViewById<TextView>(R.id.name).text = book.name
+            view.findViewById<TextView>(R.id.name).text = book.title
         }
     }
 }

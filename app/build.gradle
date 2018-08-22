@@ -41,8 +41,7 @@ android {
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         testInstrumentationRunnerArguments clearPackageData: 'true'
         signingConfig signingConfigs.release
-        buildConfigField "String", "GOOD_READS_API_KEY", GOOD_READS_API_KEY
-        buildConfigField "String", "GOOD_READS_API_SECRET", GOOD_READS_API_SECRET
+        buildConfigField "String", "NYT_BOOKS_API_KEY", NYT_BOOKS_API_KEY
     }
     buildTypes {
         release {

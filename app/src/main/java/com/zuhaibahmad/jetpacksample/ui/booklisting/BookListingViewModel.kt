@@ -1,10 +1,10 @@
 package com.zuhaibahmad.jetpacksample.ui.booklisting
 
 import com.zuhaibahmad.jetpacksample.data.IBooksRepository
+import com.zuhaibahmad.jetpacksample.network.response.Book
 import com.zuhaibahmad.jetpacksample.ui.base.BaseTestableViewModel
 import com.zuhaibahmad.jetpacksample.ui.base.ISchedulers
 import timber.log.Timber
-import java.util.concurrent.TimeUnit
 
 class BookListingViewModel(
     private val repository: IBooksRepository,
@@ -18,12 +18,10 @@ class BookListingViewModel(
 
     fun subscribeToUiEvents() {
         // Todo: Open book review
-        adapter.clicks.subscribe { view.showMessage("${it.name} clicked!") }.disposeOnDestroy()
+        adapter.clicks.subscribe { view.showMessage("${it.title} clicked!") }.disposeOnDestroy()
     }
 
-    // Todo: Remove delay
     fun refreshData() = repository.getBooks()
-        .delay(2, TimeUnit.SECONDS)
         .doOnSubscribe {
             loadBooks(emptyList())
             view.showProgress()
