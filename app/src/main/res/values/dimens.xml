@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <!-- Common -->
+    <dimen name="divider_width">1dp</dimen>
+    <dimen name="space_small">4dp</dimen>
+    <dimen name="space_medium">8dp</dimen>
+    <dimen name="space_large">16dp</dimen>
+    <dimen name="space_xlarge">24dp</dimen>
+    <dimen name="space_xxlarge">32dp</dimen>
+    <dimen name="elevation">4dp</dimen>
+
+    <dimen name="small_text">11sp</dimen>
+    <dimen name="content_vertical_space">16dp</dimen>
+    <dimen name="content_horizontal_space">16dp</dimen>
+    <dimen name="button_height">36dp</dimen>
+    <dimen name="button_radius">6dp</dimen>
+    <dimen name="common_radius">4dp</dimen>
+    <dimen name="button_horizontal_padding">16dp</dimen>
+    <dimen name="text_primary_size">14sp</dimen>
+    <dimen name="text_prize_size">12sp</dimen>
+
+    <dimen name="text_splash_size">16sp</dimen>
+
+
+    <dimen name="account_avatar_width">64dp</dimen>
+    <dimen name="button_nearby_width">72dp</dimen>
+    <dimen name="map_button_height">28dp</dimen>
+    <dimen name="map_button_height_half">4dp</dimen>
+    <dimen name="map_button_padding_horizontal">8dp</dimen>
+    <dimen name="map_filters_border_width">1dp</dimen>
+    <dimen name="map_element_margin_top">16dp</dimen>
+    <dimen name="map_element_margin_horizontal">16dp</dimen>
+    <dimen name="map_element_elevation">4dp</dimen>
+    <dimen name="map_raffles_padding_horizontal">16dp</dimen>
+    <dimen name="rounded_corner_radius">4dp</dimen>
+    <dimen name="map_search_bar_height">48dp</dimen>
+    <dimen name="spacing_medium">8dp</dimen>
+    <dimen name="prize_filter_min_width">32dp</dimen>
+    <dimen name="bottom_bar_height">60dp</dimen>
+    <dimen name="tab_layout_height">48dp</dimen>
+    <dimen name="onboarding_button_height">48dp</dimen>
+
+    <!-- Account -->
+    <dimen name="account_user_margin_top">24dp</dimen>
+    <dimen name="account_section_margin_top">24dp</dimen>
+    <dimen name="account_default_margin">24dp</dimen>
+
+    <!-- PRIZE -->
+    <dimen name="prize_image_size">84dp</dimen>
+
+    <!-- Edit profile -->
+    <dimen name="edit_profile_avatar_size">64dp</dimen>
+
+    <!-- Notifications -->
+    <dimen name="notification_header_image_size">32dp</dimen>
+
+
+    <!-- Raffles list -->
+    <dimen name="list_item_raffle_height">190dp</dimen>
+    <dimen name="item_raffle_height">118dp</dimen>
+    <dimen name="ticket_clip_radius">10dp</dimen>
+    <dimen name="ticket_radius">4dp</dimen>
+    <dimen name="raffle_item_space">8dp</dimen>
+    <dimen name="raffle_ticket_elevation">8dp</dimen>
+    <dimen name="ticket_bar_width">1dp</dimen>
+    <dimen name="raffle_list_image_size">64dp</dimen>
+
+    <!-- Raffles detail -->
+    <dimen name="raffle_detail_margin_top">64dp</dimen>
+    <dimen name="raffle_detail_map_height">160dp</dimen>
+    <dimen name="raffle_progress_height">12dp</dimen>
+
+    <!-- FEEDBACK -->
+    <dimen name="feedback_textarea_high">128dp</dimen>
+
+    <!-- Raffle list business -->
+    <dimen name="business_raffle_detail_prize_cover_height">96dp</dimen>
+    <dimen name="winner_avatar_size">48dp</dimen>
+    <dimen name="prize_background_height">68dp</dimen>
+
+
+    <dimen name="design_bottom_navigation_text_size" tools:ignore="UnusedResources" tools:override="true">
+        @dimen/text_prize_size
+    </dimen>
+    <dimen name="design_bottom_navigation_active_text_size" tools:ignore="UnusedResources" tools:override="true">
+        @dimen/design_bottom_navigation_text_size
+    </dimen>
+    <dimen name="add_prize_item_width">64dp</dimen>
+    <dimen name="recently_win_item_height">250dp</dimen>
+    <!-- MAP -->
+    <dimen name="map_raffles_list_stub_title_width">250dp</dimen>
+    <dimen name="map_raffle_list_stub">200dp</dimen>
+
+    <!--FORGOT PASSWD-->
+    <dimen name="forgot_psswd_message_gap">54dp</dimen>
+    <dimen name="forgot_psswd_test_size16">16sp</dimen>
+    <dimen name="forgot_psswd_test_size14">14sp</dimen>
+
+</resources>
