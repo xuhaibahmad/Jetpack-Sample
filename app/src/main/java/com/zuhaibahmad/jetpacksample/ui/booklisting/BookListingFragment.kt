@@ -8,6 +8,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.snackbar.Snackbar
+import com.thefinestartist.finestwebview.FinestWebView
 import com.zuhaibahmad.jetpacksample.R
 import kotlinx.android.synthetic.main.book_listing_layout.*
 import org.koin.android.ext.android.inject
@@ -23,7 +24,6 @@ class BookListingFragment : Fragment(), BookListingView {
 
     private val viewModelFactory: BookListingViewModelFactory by inject()
 
-
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, b: Bundle?): View =
         inflater.inflate(R.layout.book_listing_fragment, container, false)
 
@@ -33,7 +33,7 @@ class BookListingFragment : Fragment(), BookListingView {
             .of(this, viewModelFactory)
             .get(BookListingViewModel::class.java)
         viewModel.view = this
-        viewModel.subscribeToUiEvents()
+        viewModel.start()
 
         setupRecyclerView()
         initPullToRefresh()
@@ -66,4 +66,7 @@ class BookListingFragment : Fragment(), BookListingView {
     override fun hideProgress() {
         swipeRefresh.isRefreshing = false
     }
+
+    override fun openReview(reviewUrl: String) =
+        activity?.run { FinestWebView.Builder(this).show(reviewUrl) } ?: Unit
 }

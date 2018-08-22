@@ -200,6 +200,9 @@ dependencies {
     // DI
     implementation "org.koin:koin-android:$koin_version"
 
+    // Misc
+    compile 'com.thefinestartist:finestwebview:1.2.7'
+
     // Testing
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'androidx.test:runner:1.1.0-alpha4'

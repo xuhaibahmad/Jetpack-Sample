@@ -12,7 +12,12 @@ class BookListingViewModel(
     scheduler: ISchedulers
 ) : BaseTestableViewModel<BookListingView>(scheduler) {
 
-    init {
+    fun start(){
+        subscribeToDataEvents()
+        subscribeToUiEvents()
+    }
+
+    fun subscribeToDataEvents() {
         refreshData()
     }
 
@@ -39,10 +44,8 @@ class BookListingViewModel(
         .doFinally { view.hideProgress() }
         .map { it.url }
         .doOnSuccess { Timber.i("Review Url: $it") }
-        .subscribe({ openReview(it) }, Timber::e)
+        .subscribe({ view.openReview(it) }, { it.message?.let { view.showMessage(it) } })
         .disposeOnDestroy()
-
-    private fun openReview(reviewUrl: String) = view.showMessage(reviewUrl)
 
     private fun loadBooks(books: List<Book>) = adapter.apply {
         this.books.clear()

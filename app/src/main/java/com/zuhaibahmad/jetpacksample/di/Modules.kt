@@ -23,6 +23,7 @@ import java.util.concurrent.TimeUnit
  * App module
  */
 val appModule = applicationContext {
+
     factory { AppSchedulers() as ISchedulers }
 
     bean { BooksRepository(get()) as IBooksRepository }
