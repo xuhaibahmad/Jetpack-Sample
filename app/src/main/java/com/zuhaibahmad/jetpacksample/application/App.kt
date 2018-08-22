@@ -2,15 +2,19 @@ package com.zuhaibahmad.jetpacksample.application
 
 import android.app.Application
 import com.zuhaibahmad.jetpacksample.BuildConfig
+import com.zuhaibahmad.jetpacksample.di.appModules
 import com.zuhaibahmad.jetpacksample.utils.FileLogsTree
+import org.koin.android.ext.android.startKoin
 import timber.log.Timber
 
 class App: Application() {
 
+    var hasAlreadyLoadedModules = false
+
     override fun onCreate() {
         super.onCreate()
 
-        //initDI()
+        initDI()
         initTimber()
     }
 
@@ -21,8 +25,9 @@ class App: Application() {
         }
     }
 
-    /*private fun initDI() {
-        DI.init(AppInjector.init(this))
-    }*/
+    private fun initDI() {
+        if(!hasAlreadyLoadedModules)
+            startKoin(this, appModules)
+    }
 
 }

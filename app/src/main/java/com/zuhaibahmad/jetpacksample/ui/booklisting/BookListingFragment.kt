@@ -9,9 +9,8 @@ import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.snackbar.Snackbar
 import com.zuhaibahmad.jetpacksample.R
-import com.zuhaibahmad.jetpacksample.data.BooksRepository
-import com.zuhaibahmad.jetpacksample.ui.base.AppSchedulers
 import kotlinx.android.synthetic.main.book_listing_layout.*
+import org.koin.android.ext.android.inject
 import timber.log.Timber
 
 class BookListingFragment : Fragment(), BookListingView {
@@ -22,17 +21,17 @@ class BookListingFragment : Fragment(), BookListingView {
 
     private lateinit var viewModel: BookListingViewModel
 
-    private val viewModelFactory by lazy {
-        BookListingViewModelFactory(BooksRepository(), BookListingAdapter(), AppSchedulers())
-    }
+    private val viewModelFactory: BookListingViewModelFactory by inject()
+
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, b: Bundle?): View =
         inflater.inflate(R.layout.book_listing_fragment, container, false)
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        viewModel =
-            ViewModelProviders.of(this, viewModelFactory).get(BookListingViewModel::class.java)
+        viewModel = ViewModelProviders
+            .of(this, viewModelFactory)
+            .get(BookListingViewModel::class.java)
         viewModel.view = this
         viewModel.subscribeToUiEvents()
 
